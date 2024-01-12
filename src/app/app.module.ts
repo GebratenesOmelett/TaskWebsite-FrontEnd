@@ -9,6 +9,8 @@ import { RegistrationFormComponent } from './components/registration-form/regist
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { TasksComponent } from './components/tasks/tasks.component';
 import { MainWebsiteComponent } from './components/main-website/main-website.component';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
   declarations: [
@@ -18,11 +20,14 @@ import { MainWebsiteComponent } from './components/main-website/main-website.com
     RegistrationFormComponent,
     NavbarComponent,
     TasksComponent,
-    MainWebsiteComponent
+    MainWebsiteComponent,
+
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]
