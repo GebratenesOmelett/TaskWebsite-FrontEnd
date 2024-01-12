@@ -7,32 +7,57 @@ import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
   styleUrls: ['./task-form.component.css']
 })
 export class TaskFormComponent implements OnInit{
-  TaskFormGroup!: FormGroup;
+  taskFormGroup!: FormGroup;
+  actualDate = new Date()
+  minimumDate : any
+
+  currentYear = this.actualDate.getUTCFullYear();
+  currentMonth = this.actualDate.getUTCMonth() +1;
+  currentDay = this.actualDate.getUTCDate();
+  FinalMonth : any;
+  FinalDay : any;
   constructor(private formBuilder: FormBuilder){}
 
   ngOnInit(): void {
-    this.TaskFormGroup = this.formBuilder.group({
+    this.calenderMinimumDate();
+    this.taskFormGroup = this.formBuilder.group({
       task: this.formBuilder.group({
         title: "",
-        Importance: "",
-        Description: "",
-        Deadline: new FormControl('yyyy-MM-dd')
+        importance: "",
+        description: "",
+        deadline: new FormControl('yyyy-MM-dd')
       })
     })
   }
+  get title(){
+    return this.taskFormGroup.get('task.title')
+  }
+  get importance(){
+    return this.taskFormGroup.get('task.importance')
+  }
+  get description(){
+    return this.taskFormGroup.get('task.description')
+  }
+  get deadline(){
+    return this.taskFormGroup.get('task.deadline')
+  }
+
+  calenderMinimumDate(){
+    if(this.currentMonth < 10){
+      this.FinalMonth = "0" + this.currentMonth
+    }
+    else{
+      this.FinalMonth = this.currentMonth;
+    }
+
+    if(this.currentDay< 10){
+      this.FinalDay = "0" + this.currentDay;
+    }
+    else {
+      this.FinalDay = this.currentDay;
+    }
+
+    this.minimumDate = this.currentYear + "-" + this.FinalMonth + "-" + this.FinalDay;
+  }
 }
-// ngOnInit(): void {
-//   this.checkoutFormGroup = this.formBuilder.group({
-//     customer: this.formBuilder.group({
-//         firstName: new FormControl('', [Validators.required, GeneralValidation.notOnlyWhiteSpace]),
-//         lastName: new FormControl('', [Validators.required, GeneralValidation.notOnlyWhiteSpace]),
-//         email: new FormControl('', [Validators.required,
-//           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
-//         password: new FormControl('', [Validators.required, GeneralValidation.notOnlyWhiteSpace, Validators.minLength(8)]),
-//         passwordRepeat: new FormControl('', [])
-//       },
-//       {
-//         validators : PasswordValidation.passwordsShouldBeTheSame("password", "passwordRepeat")
-//       })
-//   });
-// }
+

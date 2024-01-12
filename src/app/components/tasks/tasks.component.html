@@ -1,1 +1,4 @@
-<mat-paginator showFirstLastButtons></mat-paginator>
+
+<div *ngIf="taskArray" class="p-5">
+  <mat-paginator #paginator pageSize="5" showFirstLastButtons></mat-paginator>
+</div>

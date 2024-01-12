@@ -11,6 +11,8 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { MainWebsiteComponent } from './components/main-website/main-website.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from "@angular/material/paginator";
+import {ReactiveFormsModule} from "@angular/forms";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import {MatPaginatorModule} from "@angular/material/paginator";
     BrowserModule,
     AppRoutingModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
