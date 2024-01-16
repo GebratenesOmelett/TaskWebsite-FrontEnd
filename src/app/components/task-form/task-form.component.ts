@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {TaskServiceService} from "../../service/task/task-service.service";
+import {TaskCreate} from "../../entity/task/task-create";
 
 @Component({
   selector: 'app-task-form',
@@ -16,7 +18,8 @@ export class TaskFormComponent implements OnInit{
   currentDay = this.actualDate.getUTCDate();
   FinalMonth : any;
   FinalDay : any;
-  constructor(private formBuilder: FormBuilder){}
+  constructor(private formBuilder: FormBuilder,
+              private taskService: TaskServiceService){}
 
   ngOnInit(): void {
     this.calenderMinimumDate();
@@ -58,6 +61,17 @@ export class TaskFormComponent implements OnInit{
     }
 
     this.minimumDate = this.currentYear + "-" + this.FinalMonth + "-" + this.FinalDay;
+  }
+  onSubmit(){
+    let task = new TaskCreate(this.title?.value, this.importance?.value, this.description?.value, this.deadline?.value);
+    console.log(task);
+    this.taskService.CreateTask(task).subscribe(
+      {
+        next: response=>{
+          console.log(response.data)
+        }
+      }
+    )
   }
 }
 
