@@ -43,4 +43,7 @@ export class TaskServiceService {
   addTask(task: TaskCreate) {
     // let
   }
+  logout(){
+    this.listOfTasks.next(null!);
+  }
 }
