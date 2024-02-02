@@ -15,7 +15,14 @@ export class TaskServiceService {
   private getTasksUrl = "http://localhost:8080/api/tasks/get/";
 
   // public listOfTasks: Task[];
-  listOfTasks = new BehaviorSubject<Task[]>(null!)
+  public listOfTasks = new BehaviorSubject<Task[]>(null!)
+
+  actualDate = new Date()
+  currentYear = this.actualDate.getUTCFullYear();
+  currentMonth = this.actualDate.getUTCMonth() + 1;
+  currentDay = this.actualDate.getUTCDate();
+  FinalMonth: any;
+  FinalDay: any;
 
   constructor(private httpClient: HttpClient,
               private customerService: CustomerServiceService) {
@@ -40,10 +47,33 @@ export class TaskServiceService {
     }));
   }
 
-  addTask(task: TaskCreate) {
-    // let
+  addTask(taskCreate: TaskCreate) {
+    this.listOfTasks.pipe(take(1)).subscribe(val => {
+      if(val == null){
+        val = [];
+      }
+      let task = new Task(taskCreate.title, taskCreate.importance, taskCreate.description, new Date(this.getCalenderMinimumDate()).toISOString().split('T')[0], taskCreate.deadLine);
+      val.unshift(task);
+      this.listOfTasks.next(val);
+    })
   }
   logout(){
     this.listOfTasks.next(null!);
+  }
+
+  getCalenderMinimumDate() {
+    if (this.currentMonth < 10) {
+      this.FinalMonth = "0" + this.currentMonth
+    } else {
+      this.FinalMonth = this.currentMonth;
+    }
+
+    if (this.currentDay < 10) {
+      this.FinalDay = "0" + this.currentDay;
+    } else {
+      this.FinalDay = this.currentDay;
+    }
+
+    return this.currentYear + "-" + this.FinalMonth + "-" + this.FinalDay;
   }
 }

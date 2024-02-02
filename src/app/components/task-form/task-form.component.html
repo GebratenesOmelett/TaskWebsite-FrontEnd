@@ -35,32 +35,28 @@
 
         <mat-table [dataSource]="dataSource" matSort>
 
-            <!-- ID Column -->
             <ng-container matColumnDef="title">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Title</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> Title</mat-header-cell>
                 <mat-cell *matCellDef="let row"> {{row.title}} </mat-cell>
             </ng-container>
 
-            <!-- Progress Column -->
             <ng-container matColumnDef="importance">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Importance</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> Importance</mat-header-cell>
                 <mat-cell *matCellDef="let row"> {{row.importance}} </mat-cell>
             </ng-container>
 
-            <!-- Name Column -->
             <ng-container matColumnDef="description">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Description</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> Description</mat-header-cell>
                 <mat-cell *matCellDef="let row"> {{row.description}} </mat-cell>
             </ng-container>
 
-            <!-- Color Column -->
             <ng-container matColumnDef="creationDate">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> creationDate</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> Creation Date</mat-header-cell>
                 <mat-cell *matCellDef="let row">  {{row.creationDate}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="deadLine">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Deadline</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef> Deadline</mat-header-cell>
                 <mat-cell *matCellDef="let row"> {{row.deadLine}} </mat-cell>
             </ng-container>
 

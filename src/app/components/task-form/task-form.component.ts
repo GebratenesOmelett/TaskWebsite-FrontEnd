@@ -5,7 +5,7 @@ import {TaskCreate} from "../../entity/task/task-create";
 import {CustomerServiceService} from "../../service/customer/customer-service.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {Task} from "../../entity/task/task";
-import {Subscription} from "rxjs";
+import {Subscription, take} from "rxjs";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 
@@ -17,14 +17,7 @@ import {MatSort} from "@angular/material/sort";
 export class TaskFormComponent implements OnInit, OnDestroy {
   isAuthenticated = false;
   taskFormGroup!: FormGroup;
-  actualDate = new Date()
   minimumDate: any
-
-  currentYear = this.actualDate.getUTCFullYear();
-  currentMonth = this.actualDate.getUTCMonth() + 1;
-  currentDay = this.actualDate.getUTCDate();
-  FinalMonth: any;
-  FinalDay: any;
 
   displayedColumns = ['title', 'importance', 'description', 'creationDate', 'deadLine'];
   // @ts-ignore
@@ -44,10 +37,15 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     this.customerService.customer.subscribe(user => {
       this.isAuthenticated = !!user;
       if (this.isAuthenticated) {
-        this.getTasks();
+          this.taskSub = this.taskService.getTasks().subscribe(tasks => {
+            this.listOfTasks = tasks
+            this.dataSource = new MatTableDataSource(tasks);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          })
       }
     });
-    this.calenderMinimumDate();
+    this.minimumDate = this.taskService.getCalenderMinimumDate();
     this.taskFormGroup = this.formBuilder.group({
       task: this.formBuilder.group({
         title: "",
@@ -59,7 +57,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   }
 
   getTasks() {
-    this.taskSub = this.taskService.getTasks().subscribe(tasks => {
+    this.taskService.listOfTasks.pipe(take(1)).subscribe(tasks => {
       this.listOfTasks = tasks
       this.dataSource = new MatTableDataSource(tasks);
       this.dataSource.paginator = this.paginator;
@@ -83,36 +81,23 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     return this.taskFormGroup.get('task.deadline')
   }
 
-  calenderMinimumDate() {
-    if (this.currentMonth < 10) {
-      this.FinalMonth = "0" + this.currentMonth
-    } else {
-      this.FinalMonth = this.currentMonth;
-    }
 
-    if (this.currentDay < 10) {
-      this.FinalDay = "0" + this.currentDay;
-    } else {
-      this.FinalDay = this.currentDay;
-    }
-
-    this.minimumDate = this.currentYear + "-" + this.FinalMonth + "-" + this.FinalDay;
-  }
 
   onSubmit() {
+    let task = new TaskCreate(this.title?.value, this.importance?.value, this.description?.value, this.deadline?.value);
+    this.taskService.addTask(task);
     if (this.isAuthenticated) {
-      let task = new TaskCreate(this.title?.value, this.importance?.value, this.description?.value, this.deadline?.value);
       this.taskService.CreateTask(task).subscribe(
           {
             next: response => {
-              console.log(response.data)
               this.getTasks()
             }
           }
       )
     } else {
-      console.log("nie")
+        this.getTasks()
     }
+
 
   }
 
