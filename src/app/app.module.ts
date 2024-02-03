@@ -13,6 +13,7 @@ import {MatPaginatorModule} from "@angular/material/paginator";
 import {ReactiveFormsModule} from "@angular/forms";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MatFormFieldModule} from "@angular/material/form-field";
+import {SuccededComponent} from "./components/alert/succeded/succeded.component";
 
 @NgModule({
   declarations: [
@@ -24,15 +25,16 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     MainWebsiteComponent,
 
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MatTableModule,
-    MatPaginatorModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MatFormFieldModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MatTableModule,
+        MatPaginatorModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MatFormFieldModule,
+        SuccededComponent
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

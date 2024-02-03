@@ -4,6 +4,7 @@ import {CustomerServiceService} from "../../service/customer/customer-service.se
 import {Router} from "@angular/router";
 import {CustomerCreate} from "../../entity/customer/customer-create";
 import {PasswordValidation} from "../../validation/password-validation";
+import {AlertService} from "../../service/alert/alert.service";
 
 @Component({
   selector: 'app-registration-form',
@@ -15,7 +16,8 @@ export class RegistrationFormComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private customerService: CustomerServiceService,
-              private route: Router) {
+              private route: Router,
+              private alertService: AlertService) {
   }
 
   ngOnInit(): void {
@@ -52,10 +54,15 @@ export class RegistrationFormComponent implements OnInit {
       this.registerFormGroup.markAllAsTouched();
       return
     }
-    let customerCreate = new CustomerCreate(this.email?.value, this.password?.value);
+    let customerCreate = new CustomerCreate(this.email?.value, this.password?.value, this.passwordRepeat?.value);
     this.customerService.registerCustomer(customerCreate).subscribe({
         next: response => {
+          this.alertService.showAnimatedDiv();
           this.route.navigateByUrl("/home")
+        },
+        error: err => {
+          console.log(err.error.split(':')[0])
+          this.alertService
         }
       }
     );
