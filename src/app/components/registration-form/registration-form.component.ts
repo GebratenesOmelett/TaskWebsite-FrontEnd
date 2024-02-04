@@ -4,7 +4,8 @@ import {CustomerServiceService} from "../../service/customer/customer-service.se
 import {Router} from "@angular/router";
 import {CustomerCreate} from "../../entity/customer/customer-create";
 import {PasswordValidation} from "../../validation/password-validation";
-import {AlertService} from "../../service/alert/alert.service";
+import {SuccededService} from "../../service/alert/succeded.service";
+import {FailedService} from "../../service/alert/failed.service";
 
 @Component({
   selector: 'app-registration-form',
@@ -17,7 +18,8 @@ export class RegistrationFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private customerService: CustomerServiceService,
               private route: Router,
-              private alertService: AlertService) {
+              private succededService: SuccededService,
+              private failedService: FailedService) {
   }
 
   ngOnInit(): void {
@@ -57,12 +59,11 @@ export class RegistrationFormComponent implements OnInit {
     let customerCreate = new CustomerCreate(this.email?.value, this.password?.value, this.passwordRepeat?.value);
     this.customerService.registerCustomer(customerCreate).subscribe({
         next: response => {
-          this.alertService.showAnimatedDiv();
+          this.succededService.showAnimatedDiv("Account successfully created");
           this.route.navigateByUrl("/home")
         },
         error: err => {
-          console.log(err.error.split(':')[0])
-          this.alertService
+          this.failedService.showAnimatedDiv(err.error.split(':')[0])
         }
       }
     );

@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {TaskServiceService} from "../../service/task/task-service.service";
 import {TaskCreate} from "../../entity/task/task-create";
 import {CustomerServiceService} from "../../service/customer/customer-service.service";
@@ -48,10 +48,10 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     this.minimumDate = this.taskService.getCalenderMinimumDate();
     this.taskFormGroup = this.formBuilder.group({
       task: this.formBuilder.group({
-        title: "",
-        importance: "",
-        description: "",
-        deadline: new FormControl('yyyy-MM-dd')
+        title: new FormControl('',[Validators.required]),
+        importance: new FormControl('',[Validators.required]),
+        description: new FormControl(''),
+        deadline: new FormControl('',[Validators.required])
       })
     })
   }
@@ -84,6 +84,10 @@ export class TaskFormComponent implements OnInit, OnDestroy {
 
 
   onSubmit() {
+    if (this.taskFormGroup.invalid){
+      this.taskFormGroup.markAllAsTouched()
+      return;
+    }
     let task = new TaskCreate(this.title?.value, this.importance?.value, this.description?.value, this.deadline?.value);
     this.taskService.addTask(task);
     if (this.isAuthenticated) {
@@ -97,9 +101,8 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     } else {
         this.getTasks()
     }
-
-
   }
+
 
   ngOnDestroy(): void {
     if (this.isAuthenticated) {

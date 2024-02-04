@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {SuccededService} from "../../../service/alert/succeded.service";
 import {NgIf} from "@angular/common";
+import {SuccededService} from "../../../service/alert/succeded.service";
 
 @Component({
   selector: 'app-succeded',

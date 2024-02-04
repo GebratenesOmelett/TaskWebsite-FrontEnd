@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AlertService } from './alert.service';
+import { FailedService } from './failed.service';
 
-describe('AlertService', () => {
-  let service: AlertService;
+describe('FailedService', () => {
+  let service: FailedService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AlertService);
+    service = TestBed.inject(FailedService);
   });
 
   it('should be created', () => {

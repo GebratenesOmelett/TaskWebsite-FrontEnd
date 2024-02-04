@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 import {CustomerServiceService} from "../../service/customer/customer-service.service";
 import {Router} from "@angular/router";
 import {CustomerLogin} from "../../entity/customer/customer-login";
+import {SuccededService} from "../../service/alert/succeded.service";
+import {FailedService} from "../../service/alert/failed.service";
 
 @Component({
   selector: 'app-login-form',
@@ -14,7 +16,9 @@ export class LoginFormComponent implements OnInit{
 
   constructor(private formBuilder: FormBuilder,
               private customerService: CustomerServiceService,
-              private route: Router) {
+              private route: Router,
+              private succededService: SuccededService,
+              private failedService: FailedService) {
   }
   ngOnInit(): void {
     this.loginFormGroup = this.formBuilder.group({
@@ -37,6 +41,10 @@ export class LoginFormComponent implements OnInit{
       {
         next: response=>{
           this.route.navigate(['/home']);
+          this.succededService.showAnimatedDiv("Successfully logged in");
+        },
+        error: err => {
+          this.failedService.showAnimatedDiv("Wrong password or email");
         }
       }
     )
