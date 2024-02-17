@@ -13,6 +13,7 @@ export class TaskServiceService {
 
   private taskPostUrl = "http://localhost:8080/api/tasks";
   private getTasksUrl = "http://localhost:8080/api/tasks/get/";
+  private deleteTaskUrl = "http://localhost:8080/api/tasks/";
 
   // public listOfTasks: Task[];
   public listOfTasks = new BehaviorSubject<Task[]>(null!)
@@ -28,13 +29,23 @@ export class TaskServiceService {
               private customerService: CustomerServiceService) {
   }
 
-  CreateTask(task: TaskCreate): Observable<any> {
+  createTask(task: TaskCreate): Observable<any> {
     return this.customerService.customer.pipe(take(1), exhaustMap(customer => {
       let headers_object = new HttpHeaders().set("Authorization", "Bearer " + customer.token);
       task.email = customer.email;
       return this.httpClient.post<AuthResponse>(this.taskPostUrl, task, {headers: headers_object});
     }));
   }
+
+  deleteTask(id: number) {
+    return this.customerService.customer.pipe(take(1), exhaustMap(customer => {
+        let headers_object = new HttpHeaders().set("Authorization", "Bearer " + customer.token);
+        let finalUrl = this.deleteTaskUrl + id;
+        console.log(id);
+        return this.httpClient.delete(finalUrl, {headers: headers_object})
+      }
+    ))
+  };
 
   getTasks(): Observable<any> {
     return this.customerService.customer.pipe(take(2), exhaustMap(customer => {
@@ -49,15 +60,16 @@ export class TaskServiceService {
 
   addTask(taskCreate: TaskCreate) {
     this.listOfTasks.pipe(take(1)).subscribe(val => {
-      if(val == null){
+      if (val == null) {
         val = [];
       }
-      let task = new Task(taskCreate.title, taskCreate.importance, taskCreate.description, new Date(this.getCalenderMinimumDate()).toISOString().split('T')[0], taskCreate.deadLine);
+      let task = new Task(val.length + 1,taskCreate.title, taskCreate.importance, taskCreate.description, new Date(this.getCalenderMinimumDate()).toISOString().split('T')[0], taskCreate.deadLine);
       val.unshift(task);
       this.listOfTasks.next(val);
     })
   }
-  logout(){
+
+  logout() {
     this.listOfTasks.next(null!);
   }
 

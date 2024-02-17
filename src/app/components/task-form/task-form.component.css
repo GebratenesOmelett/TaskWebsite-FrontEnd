@@ -1,3 +1,5 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
 textarea {
   resize: none;
 }
@@ -18,4 +20,10 @@ textarea {
 }
 input.ng-invalid.ng-touched {
   border: 1px solid red;
+}
+
+.delete-button{
+  background: none;
+  color: inherit;
+  border: none;
 }

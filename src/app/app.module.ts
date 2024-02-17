@@ -15,6 +15,7 @@ import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {SuccededComponent} from "./components/alert/succeded/succeded.component";
 import {FailedComponent} from "./components/alert/failed/failed.component";
+import {MatIconModule} from "@angular/material/icon";
 
 @NgModule({
   declarations: [
@@ -26,17 +27,18 @@ import {FailedComponent} from "./components/alert/failed/failed.component";
     MainWebsiteComponent,
 
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    MatTableModule,
-    MatPaginatorModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MatFormFieldModule,
-    SuccededComponent,
-    FailedComponent
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        MatTableModule,
+        MatPaginatorModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MatFormFieldModule,
+        SuccededComponent,
+        FailedComponent,
+        MatIconModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

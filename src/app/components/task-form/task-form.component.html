@@ -59,10 +59,19 @@
         <mat-header-cell *matHeaderCellDef> Deadline</mat-header-cell>
         <mat-cell *matCellDef="let row"> {{row.deadLine}} </mat-cell>
       </ng-container>
+      <ng-container matColumnDef="delete">
+        <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+        <mat-cell *matCellDef="let i = index">
+          <button mat-icon-button class="delete-button" (click)="removeCart(i)" >
+            <div class=" bi bi-x-circle-fill"></div>
+          </button>
+        </mat-cell>
+      </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row *matRowDef="let row; columns: displayedColumns;">
       </mat-row>
+
     </mat-table>
     <mat-paginator #paginator
                    [pageSize]="5"

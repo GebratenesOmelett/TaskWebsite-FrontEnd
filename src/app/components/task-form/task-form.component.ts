@@ -19,7 +19,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   taskFormGroup!: FormGroup;
   minimumDate: any
 
-  displayedColumns = ['title', 'importance', 'description', 'creationDate', 'deadLine'];
+  displayedColumns = ['title', 'importance', 'description', 'creationDate', 'deadLine', 'delete'];
   // @ts-ignore
   dataSource: MatTableDataSource<Task>;
   listOfTasks: Task[] = [];
@@ -91,7 +91,7 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     let task = new TaskCreate(this.title?.value, this.importance?.value, this.description?.value, this.deadline?.value);
     this.taskService.addTask(task);
     if (this.isAuthenticated) {
-      this.taskService.CreateTask(task).subscribe(
+      this.taskService.createTask(task).subscribe(
           {
             next: response => {
               this.getTasks()
@@ -110,4 +110,19 @@ export class TaskFormComponent implements OnInit, OnDestroy {
       this.isAuthenticated = false;
     }
   }
+
+  removeCart(index: number) {
+    if (this.isAuthenticated){
+      this.taskService.deleteTask(this.listOfTasks[index].id).subscribe()
+      console.log("dziala")
+    }
+    console.log(this.listOfTasks[index].id)
+    this.listOfTasks.splice(index, 1);
+    this.updateDataSource();
+
+  }
+  updateDataSource() {
+    this.dataSource.data = this.listOfTasks;
+  }
+
 }
