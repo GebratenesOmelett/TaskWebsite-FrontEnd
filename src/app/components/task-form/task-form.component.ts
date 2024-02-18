@@ -37,21 +37,21 @@ export class TaskFormComponent implements OnInit, OnDestroy {
     this.customerService.customer.subscribe(user => {
       this.isAuthenticated = !!user;
       if (this.isAuthenticated) {
-          this.taskSub = this.taskService.getTasks().subscribe(tasks => {
-            this.listOfTasks = tasks
-            this.dataSource = new MatTableDataSource(tasks);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-          })
+        this.taskSub = this.taskService.getTasks().subscribe(tasks => {
+          this.listOfTasks = tasks
+          this.dataSource = new MatTableDataSource(tasks);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        })
       }
     });
     this.minimumDate = this.taskService.getCalenderMinimumDate();
     this.taskFormGroup = this.formBuilder.group({
       task: this.formBuilder.group({
-        title: new FormControl('',[Validators.required]),
-        importance: new FormControl('',[Validators.required]),
+        title: new FormControl('', [Validators.required]),
+        importance: new FormControl('', [Validators.required]),
         description: new FormControl(''),
-        deadline: new FormControl('',[Validators.required])
+        deadline: new FormControl('', [Validators.required])
       })
     })
   }
@@ -82,24 +82,29 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   }
 
 
-
   onSubmit() {
-    if (this.taskFormGroup.invalid){
+    if (this.taskFormGroup.invalid) {
       this.taskFormGroup.markAllAsTouched()
       return;
     }
-    let task = new TaskCreate(this.title?.value, this.importance?.value, this.description?.value, this.deadline?.value);
-    this.taskService.addTask(task);
+    let taskCreate = new TaskCreate(this.title?.value, this.importance?.value, this.description?.value, this.deadline?.value);
     if (this.isAuthenticated) {
-      this.taskService.createTask(task).subscribe(
-          {
-            next: response => {
-              this.getTasks()
-            }
+      this.taskService.createTask(taskCreate).subscribe(
+        {
+          next: response => {
+            this.taskService.addTask(response);
+            this.getTasks()
           }
+        }
       )
     } else {
-        this.getTasks()
+      let task = new Task(this.listOfTasks.length + 1,
+        taskCreate.title, taskCreate.importance,
+        taskCreate.description,
+        this.taskService.getCreationDate(),
+        taskCreate.deadLine)
+      this.taskService.addTask(task);
+      this.getTasks()
     }
   }
 
@@ -112,15 +117,14 @@ export class TaskFormComponent implements OnInit, OnDestroy {
   }
 
   removeCart(index: number) {
-    if (this.isAuthenticated){
+    if (this.isAuthenticated) {
       this.taskService.deleteTask(this.listOfTasks[index].id).subscribe()
-      console.log("dziala")
     }
-    console.log(this.listOfTasks[index].id)
     this.listOfTasks.splice(index, 1);
     this.updateDataSource();
 
   }
+
   updateDataSource() {
     this.dataSource.data = this.listOfTasks;
   }

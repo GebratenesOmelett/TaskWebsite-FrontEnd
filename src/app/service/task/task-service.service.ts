@@ -33,15 +33,14 @@ export class TaskServiceService {
     return this.customerService.customer.pipe(take(1), exhaustMap(customer => {
       let headers_object = new HttpHeaders().set("Authorization", "Bearer " + customer.token);
       task.email = customer.email;
-      return this.httpClient.post<AuthResponse>(this.taskPostUrl, task, {headers: headers_object});
+      return this.httpClient.post<Task>(this.taskPostUrl, task, {headers: headers_object});
     }));
   }
 
-  deleteTask(id: number) {
+  deleteTask(id: number): Observable<any> {
     return this.customerService.customer.pipe(take(1), exhaustMap(customer => {
         let headers_object = new HttpHeaders().set("Authorization", "Bearer " + customer.token);
         let finalUrl = this.deleteTaskUrl + id;
-        console.log(id);
         return this.httpClient.delete(finalUrl, {headers: headers_object})
       }
     ))
@@ -58,15 +57,18 @@ export class TaskServiceService {
     }));
   }
 
-  addTask(taskCreate: TaskCreate) {
+  addTask(task: Task) {
     this.listOfTasks.pipe(take(1)).subscribe(val => {
       if (val == null) {
         val = [];
       }
-      let task = new Task(val.length + 1,taskCreate.title, taskCreate.importance, taskCreate.description, new Date(this.getCalenderMinimumDate()).toISOString().split('T')[0], taskCreate.deadLine);
       val.unshift(task);
       this.listOfTasks.next(val);
     })
+  }
+
+  getCreationDate(): string{
+    return new Date(this.getCalenderMinimumDate()).toISOString().split('T')[0]
   }
 
   logout() {
