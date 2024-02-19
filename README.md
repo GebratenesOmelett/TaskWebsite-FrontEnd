@@ -1,6 +1,6 @@
 # TaskWebsite
 
-#Technology
+## Technology
 * Angular
 * Bootstrap 5
 
