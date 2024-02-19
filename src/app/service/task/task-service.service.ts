@@ -12,7 +12,7 @@ import {Task} from "../../entity/task/task";
 export class TaskServiceService {
 
   private taskPostUrl = "http://localhost:8080/api/tasks";
-  private getTasksUrl = "http://localhost:8080/api/tasks/get/";
+  private getTasksUrl = "http://localhost:8080/api/tasks/";
   private deleteTaskUrl = "http://localhost:8080/api/tasks/";
 
   // public listOfTasks: Task[];
