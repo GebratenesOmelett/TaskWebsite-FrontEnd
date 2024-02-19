@@ -14,7 +14,6 @@ export class CustomerServiceService {
   private registerUrl = "http://localhost:8080/api/customers"
 
   customer = new BehaviorSubject<Customer>(null!);
-  valid: boolean = !!this.customer
 
   constructor(private httpClient: HttpClient) {
   }

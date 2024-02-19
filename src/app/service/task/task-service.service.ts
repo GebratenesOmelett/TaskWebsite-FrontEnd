@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {BehaviorSubject, exhaustMap, Observable, take, tap} from "rxjs";
-import {AuthResponse} from "../../entity/auth/auth-response";
 import {TaskCreate} from "../../entity/task/task-create";
 import {CustomerServiceService} from "../customer/customer-service.service";
 import {Task} from "../../entity/task/task";
