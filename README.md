@@ -1,4 +1,5 @@
 # TaskWebsite
+Frontend for Task-Backend. The main purpose for application is to store to do list.
 
 ## Technology
 * Angular
