@@ -10,11 +10,11 @@ import {CustomerCreate} from "../../entity/customer/customer-create";
   providedIn: 'root'
 })
 export class CustomerServiceService {
-  private loginUrl = "http://localhost:8080/api/customers/login";
-  private registerUrl = "http://localhost:8080/api/customers"
+  private defaultBaseUrl = "http://localhost:8080"
+  private loginUrl = this.defaultBaseUrl + "/api/customers/login";
+  private registerUrl = this.defaultBaseUrl + "/api/customers";
 
   customer = new BehaviorSubject<Customer>(null!);
-  valid: boolean = !!this.customer
 
   constructor(private httpClient: HttpClient) {
   }

@@ -10,15 +10,14 @@ import {Task} from "../../entity/task/task";
   providedIn: 'root'
 })
 export class TaskServiceService {
+  private defaultBaseUrl = "http://localhost:8080"
+  private taskPostUrl = this.defaultBaseUrl + "/api/tasks";
+  private getTasksUrl = this.defaultBaseUrl + "/api/tasks/get/";
+  private deleteTaskUrl = this.defaultBaseUrl + "/api/tasks/";
 
-  private taskPostUrl = "http://localhost:8080/api/tasks";
-  private getTasksUrl = "http://localhost:8080/api/tasks/get/";
-  private deleteTaskUrl = "http://localhost:8080/api/tasks/";
-
-  // public listOfTasks: Task[];
   public listOfTasks = new BehaviorSubject<Task[]>(null!)
 
-  actualDate = new Date()
+  actualDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
   currentYear = this.actualDate.getUTCFullYear();
   currentMonth = this.actualDate.getUTCMonth() + 1;
   currentDay = this.actualDate.getUTCDate();
@@ -87,7 +86,6 @@ export class TaskServiceService {
     } else {
       this.FinalDay = this.currentDay;
     }
-
     return this.currentYear + "-" + this.FinalMonth + "-" + this.FinalDay;
   }
 }
