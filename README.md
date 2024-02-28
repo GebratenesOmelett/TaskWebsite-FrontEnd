@@ -1,6 +1,9 @@
 # TaskWebsite
+Frontend for Task-Backend. The main purpose for application is to store to do list.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.1.
+## Technology
+* Angular
+* Bootstrap 5
 
 ## Development server
 
