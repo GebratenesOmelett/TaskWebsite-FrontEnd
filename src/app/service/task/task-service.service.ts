@@ -10,7 +10,7 @@ import {Task} from "../../entity/task/task";
   providedIn: 'root'
 })
 export class TaskServiceService {
-  private defaultBaseUrl = "http://localhost:8080"
+  private defaultBaseUrl = "https://task-backend.up.railway.app"
   private taskPostUrl = this.defaultBaseUrl + "/api/tasks";
   private getTasksUrl = this.defaultBaseUrl + "/api/tasks/get/";
   private deleteTaskUrl = this.defaultBaseUrl + "/api/tasks/";
