@@ -12,7 +12,7 @@ import {Task} from "../../entity/task/task";
 export class TaskServiceService {
   private defaultBaseUrl = "https://task-backend.up.railway.app"
   private taskPostUrl = this.defaultBaseUrl + "/api/tasks";
-  private getTasksUrl = this.defaultBaseUrl + "/api/tasks/get/";
+  private getTasksUrl = this.defaultBaseUrl + "/api/tasks/";
   private deleteTaskUrl = this.defaultBaseUrl + "/api/tasks/";
 
   public listOfTasks = new BehaviorSubject<Task[]>(null!)
